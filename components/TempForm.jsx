@@ -1,5 +1,4 @@
 "use client"
-import { postUser } from '@/lib/actions/user.action';
 import React, { useState } from 'react'
 
 const TempForm = () => {
