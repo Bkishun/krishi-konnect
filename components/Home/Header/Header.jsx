@@ -13,6 +13,11 @@ const Header = async () => {
 
   return (
     <div className='w-full bg-red-600 flex justify-end p-3 gap-3'>
+
+      <div className='flex gap-5 px-4 cursor-pointer'>
+        <div>Chats</div>
+        <div>Posts</div>
+      </div>
       {user ? <SignOutButton/>: <div className='flex gap-3'><SigninButton/>
         <SignupButton/></div>}
         
