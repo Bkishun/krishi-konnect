@@ -1,20 +1,36 @@
 "use client"
-import { registerUser } from '@/lib/actions/user.action'
+import { createPost, editPost, getAllPosts, getPostById } from '@/lib/actions/post.action';
+import { editUserProfile, getAllUser, getUserByAuthId, getUserByAuthUsername, registerUser, toggleAccountStatus, } from '@/lib/actions/user.action'
+import { useUser } from '@auth0/nextjs-auth0/client';
 import React from 'react'
 
-const Home = () => {
 
+const Home = () => {
+  const {user} = useUser();
+
+  // console.log(user)
     const data = {
-      name : "baki34",
-      password : "98765678343",
-      adhaarNumber : "1234567890434",
-      address : "kanpur343",
-      userType : "buyer343",
+      name : "bki2oo",
+      password : "98765678hdhdlks",
+      adhaarNumber: "56348734589346",
+      address : "lucknow343",
+      userType : "buyer",
+    }
+
+    const post ={
+      cropName : "rice",
+      cropType: "paddy",
+      minprice: "22",
+      maxPrice: "33",
+      quantity: "100tons",
+      description:"clean rice for use",
+      address: "lucknow45",
+      pictureUrl: "yuihojwopoed//4657576869/iueiutuer/jkdslhhioe//uwefeokewo//r",
     }
 
     const handleClick = async  () => {
-        const res = await registerUser(data);
-        console.log(res)
+      const res = await registerUser(data);
+      console.log(res)
 
     }
 
