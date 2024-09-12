@@ -1,3 +1,4 @@
+import Home from "@/components/Home/Home";
 import TempForm from "@/components/TempForm";
 import { getSession } from "@auth0/nextjs-auth0";
 import Link from "next/link"
@@ -9,7 +10,7 @@ const user = session?.user;
 
   return (
     <div>
-      {user.nickname}
+      <Home/>
     </div>
   )
 }
