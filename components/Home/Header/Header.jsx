@@ -8,7 +8,7 @@ const Header = async () => {
 
   const session = await getSession();
   const user = session?.user;
-  // console.log("hello user", user)
+  console.log("hello user", user)
   // console.log("hello session", session)
 
   return (
