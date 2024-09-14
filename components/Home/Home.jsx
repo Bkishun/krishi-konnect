@@ -10,16 +10,16 @@ const Home = () => {
 
   // console.log(user)
     const data = {
-      name : "bki2oo",
-      password : "98765678hdhdlks",
-      adhaarNumber: "56348734589346",
+      name : "janisar666",
+      password : "98765678hdh333dlks",
+      adhaarNumber: "56348734589333346",
       address : "lucknow343",
       userType : "buyer",
     }
 
     const post ={
-      cropName : "rice",
-      cropType: "paddy",
+      cropName : "potato",
+      cropType: "paddy1",
       minprice: "22",
       maxPrice: "33",
       quantity: "100tons",
@@ -29,7 +29,8 @@ const Home = () => {
     }
 
     const handleClick = async  () => {
-      const res = await registerUser(data);
+      const res = await getPostById("66e5838cdcb6bbbff9de87c4");
+      //66e5838cdcb6bbbff9de87c4
       console.log(res)
 
     }
