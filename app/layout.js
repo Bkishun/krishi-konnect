@@ -2,6 +2,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import Header from "@/components/Home/Header/Header";
+import { Providers } from "@/redux/Providers";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,10 +27,14 @@ export default function RootLayout({ children }) {
       <UserProvider>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
-          <Header/>
-          {children}
+        >
+          <Providers>
+
+              <Header />
+              {children}
+          </Providers>
         </body>
+
       </UserProvider>
     </html>
   );

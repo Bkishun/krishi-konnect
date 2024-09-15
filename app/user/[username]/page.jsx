@@ -11,7 +11,7 @@ const user = session?.user;
 
   return (
     <div>
-      <Main/>
+      <Main userAuthId={user.sub}/>
     </div>
   )
 }

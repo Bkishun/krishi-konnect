@@ -1,9 +1,15 @@
-const page = async () => {
+import LeftChat from "./_components/LeftChat"
+import RightChat from "./_components/RightChat"
+
+const page = async ({params}) => {
+  const {chatId} = params;
+  // console.log("chatID", chatId)
 
 
     return (
       <div>
-        user
+        <LeftChat selectedChatId={chatId}/>
+        <RightChat/>
       </div>
     )
   }

@@ -10,28 +10,29 @@ const Home = () => {
 
   // console.log(user)
     const data = {
-      name : "janisar666",
-      password : "98765678hdh333dlks",
-      adhaarNumber: "56348734589333346",
-      address : "lucknow343",
+      name : "benten",
+      password : "98987678789",
+      adhaarNumber: "980987678678",
+      address : "banarash",
       userType : "buyer",
     }
 
     const post ={
-      cropName : "potato",
-      cropType: "paddy1",
-      minprice: "22",
-      maxPrice: "33",
-      quantity: "100tons",
-      description:"clean rice for use",
-      address: "lucknow45",
-      pictureUrl: "yuihojwopoed//4657576869/iueiutuer/jkdslhhioe//uwefeokewo//r",
+      cropName : "benten potato",
+      cropType: "benten",
+      minprice: "23",
+      maxPrice: "44",
+      quantity: "100 tons",
+      description:"clean pp for use",
+      address: "banarash",
+      pictureUrl: "https://t4.ftcdn.net/jpg/05/37/04/61/360_F_537046123_s8JVn2NrClPQDOryhSm8jonYZPfIzPRX.jpg",
     }
 
     const handleClick = async  () => {
-      const res = await getPostById("66e5838cdcb6bbbff9de87c4");
+      const res = await createPost(post);
       //66e5838cdcb6bbbff9de87c4
       console.log(res)
+      
 
     }
 
