@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const LeftChat = () => {
 
-    // const data = useSelector(state => state.chatData.selectedChat)
+    // const selectedChatIdRedux = useSelector(state => state.chatData.selectedChat)
     // console.log(data)
 
     const [selectedChatIdData, setSelectedChatIdData] = useState("")

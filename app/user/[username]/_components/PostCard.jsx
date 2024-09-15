@@ -26,7 +26,7 @@ const PostCard = ({post}) => {
 
       console.log(response)
       if(response.data) {
-        router.push(`${currentUserData.user.authUsername}/chat/${response.data._id}`);
+        router.push(`${currentUserData.user.authUsername}/chat`);
 
       }
 
