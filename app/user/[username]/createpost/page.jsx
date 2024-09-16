@@ -1,10 +1,10 @@
 import React from 'react'
-import PostForm from './_components/PostForm'
+import CropPostForm from './_components/CropPostForm'
 
 const page = () => {
   return (
-    <div>
-        <PostForm/>      
+    <div className='h-screen'>
+        <CropPostForm/>      
     </div>
   )
 }
