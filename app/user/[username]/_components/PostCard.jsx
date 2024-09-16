@@ -6,7 +6,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
 const PostCard = ({post}) => {
-  const {cropName, cropType, description, maxPrice, minprice, quantity, pictureUrl, address, user} = post;
+  const {cropName, cropType, description, maxPrice, minprice, quantity, pictureUrl, address, user, _id} = post;
 
   const currentUserData = useSelector(state => state.userData)
   const dispatch = useDispatch();
@@ -19,7 +19,8 @@ const PostCard = ({post}) => {
 
       const response = await axios.post('http://localhost:3001/api/chat', {
         userId: user[0]._id,
-        currentUserId: currentUserData.user._id ,
+        currentUserId: currentUserData.user._id,
+        postId: _id,
       });
 
       dispatch(setSelectedChat(response.data._id))
@@ -32,6 +33,8 @@ const PostCard = ({post}) => {
 
       
     } catch (error) {
+
+      console.log(error)
 
       throw new Error(error.message)
       
@@ -51,7 +54,7 @@ const PostCard = ({post}) => {
         </div>
         <div className='text-sm text-[#918B98] my-2'>{description}</div>
 
-        <button onClick={handleNegotiate} className='bg-green-600 rounded-lg px-2 py-1 text-white text-xs mb-3 hover:opacity-80'>Negotiate</button>
+        <button onClick={handleNegotiate} className={`${user[0]._id == currentUserData.user._id ? "hidden" : "block"} bg-green-600 rounded-lg px-2 py-1 text-white text-xs mb-3 hover:opacity-80`}>Negotiate</button>
 
     </div>
   )

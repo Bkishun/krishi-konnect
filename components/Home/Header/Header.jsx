@@ -3,6 +3,7 @@ import { SigninButton } from './SignInButton'
 import { SignupButton } from './SignUpButton'
 import { getSession } from '@auth0/nextjs-auth0';
 import { SignOutButton } from './SignOutButton';
+import Link from 'next/link';
 
 const Header = async () => {
 
@@ -15,8 +16,9 @@ const Header = async () => {
     <div className='w-full bg-red-600 flex justify-end p-3 gap-3'>
 
       <div className='flex gap-5 px-4 cursor-pointer'>
+        <div>{user.nickname}</div>
         <div>Chats</div>
-        <div>Posts</div>
+        <Link href={`/user/${user.nickname}/createpost`}>Create Post</Link>
       </div>
       {user ? <SignOutButton/>: <div className='flex gap-3'><SigninButton/>
         <SignupButton/></div>}

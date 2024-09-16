@@ -65,7 +65,7 @@ const LeftChat = () => {
             const name = getSender(currentUserData.user, chat.users)
             console.log(name)
 
-            return <div onClick={() => handleChatClick(chat._id)} className={selectedChatIdData==chat._id ? "text-red-700": "text-black"}>{name}</div>
+            return <div onClick={() => handleChatClick(chat._id)} className={selectedChatIdData==chat._id ? "text-red-700": "text-black"}>{`${name} / ${chat.post[0].cropName}` }</div>
 
         })}
     </div>
