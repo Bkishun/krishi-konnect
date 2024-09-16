@@ -18,14 +18,14 @@ const Home = () => {
     }
 
     const post ={
-      cropName : "benten potato",
-      cropType: "benten",
-      minprice: "23",
-      maxPrice: "44",
-      quantity: "100 tons",
+      cropName : "bkishunm allu",
+      cropType: "bkishun",
+      minprice: "34",
+      maxPrice: "67",
+      quantity: "600 tons",
       description:"clean pp for use",
       address: "banarash",
-      pictureUrl: "https://t4.ftcdn.net/jpg/05/37/04/61/360_F_537046123_s8JVn2NrClPQDOryhSm8jonYZPfIzPRX.jpg",
+      pictureUrl: "https://plus.unsplash.com/premium_photo-1707242994139-fd1c5ab72aac?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8dmVnZXRhYmxlfGVufDB8fDB8fHww",
     }
 
     const handleClick = async  () => {
