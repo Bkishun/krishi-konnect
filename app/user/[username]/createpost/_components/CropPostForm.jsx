@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { createPost } from "@/lib/actions/post.action";
+import axios from "axios"; // Include axios for making requests
+import imageCompression from "browser-image-compression";
 
 const postSchema = Yup.object().shape({
   cropName: Yup.string()
@@ -32,6 +34,62 @@ const postSchema = Yup.object().shape({
 });
 
 const CropPostForm = () => {
+  const [image, setImage] = useState(null); // State for selected image
+  const [uploading, setUploading] = useState(false); // State for uploading status
+  const [showUploadMessage, setShowUploadMessage] = useState(false);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  };
+
+  const handleImageUpload = async (setFieldValue) => {
+    if (!image) {
+      alert("Please select an image first");
+      return;
+    }
+
+    
+
+    try {
+
+      setUploading(true);
+
+      
+
+      const options = {
+        maxSizeMB: 0.1, // Max size in MB (100KB)
+        maxWidthOrHeight: 1920, // Resize the image to a maximum width or height
+        useWebWorker: true,
+      };
+
+      // Compress the image
+      const compressedFile = await imageCompression(image, options);
+      console.log("Compressed File:", compressedFile);
+
+      const imageData = new FormData();
+      imageData.append("file", compressedFile);
+      imageData.append("upload_preset", "KrishiKonnect");
+      imageData.append("cloud_name", "bkishun");
+
+
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        imageData
+      );
+
+      const imageUrl = response.data.secure_url;
+      // Set the uploaded image URL in the Formik field
+      setFieldValue("pictureUrl", imageUrl);
+      setShowUploadMessage(true)
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      throw new Error(error)
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <Formik
       initialValues={{
@@ -46,13 +104,12 @@ const CropPostForm = () => {
       }}
       validationSchema={postSchema}
       onSubmit={async (values) => {
-        // same shape as initial values
-
-        const result = await createPost(values)
+        // Submit form values
+        const result = await createPost(values);
         console.log(result);
       }}
     >
-      {({ errors, touched }) => (
+      {({ errors, touched, setFieldValue }) => (
         <Form>
           <div>
             <label htmlFor="cropName">Crop Name</label>
@@ -71,7 +128,6 @@ const CropPostForm = () => {
               <option value="orange" label="Orange" />
               <option value="grape" label="Grape" />
             </Field>
-            {/* Error message */}
             <ErrorMessage name="cropType" component="div" />
           </div>
 
@@ -115,15 +171,27 @@ const CropPostForm = () => {
             ) : null}
           </div>
 
+          {/* Picture URL with image upload logic */}
           <div>
-            <label htmlFor="pictureUrl">PictureUrl</label>
-            <Field name="pictureUrl" placeholder="PictureUrl" />
-            {errors.pictureUrl && touched.pictureUrl ? (
-              <div style={{ color: "red" }}>{errors.pictureUrl}</div>
-            ) : null}
+            <label htmlFor="pictureUrl">Select Image</label>
+            <input
+              type="file"
+              name="pictureUrl"
+              onChange={handleFileChange}
+            />
+            <button
+            className="bg-blue-600 p-2"
+              type="button"
+              onClick={() => handleImageUpload(setFieldValue)}
+              disabled={uploading}
+            >
+              {uploading ? "Uploading..." : "Upload Image"}
+            </button>
+            {showUploadMessage && "Image successfully uploaded."}
+            <ErrorMessage className="text-red-600" name="pictureUrl" component="div" />
           </div>
 
-          <button type="submit">Submit</button>
+          <button className="bg-green-500 p-2" type="submit">Submit</button>
         </Form>
       )}
     </Formik>

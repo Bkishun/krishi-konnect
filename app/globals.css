@@ -2,3 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+ /* Hide scrollbar */
+ .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+    scrollbar-width: none;  /* For Firefox */
+  }
+  
+  .shadow-left::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px; /* Adjust width as needed */
+    height: 100%;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2); /* Adjust the blur and color */
+    pointer-events: none;
+  }
