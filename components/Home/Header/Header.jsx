@@ -1,24 +1,24 @@
+"use client"
+
 import React from 'react'
 import { SigninButton } from './SignInButton'
 import { SignupButton } from './SignUpButton'
-import { getSession } from '@auth0/nextjs-auth0';
 import { SignOutButton } from './SignOutButton';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 
-const Header = async () => {
+const Header = () => {
 
-  const session = await getSession();
-  const user = session?.user;
+  const {user} = useUser();
   console.log("hello user", user)
-  // console.log("hello session", session)
 
   return (
     <div className='w-full bg-red-600 flex justify-end p-3 gap-3'>
 
       <div className='flex gap-5 px-4 cursor-pointer'>
-        <div>{user.nickname}</div>
-        <div>Chats</div>
-        <Link href={`/user/${user.nickname}/createpost`}>Create Post</Link>
+        <Link href={`/user/${user?.nickname}`}>{user?.nickname}</Link>
+        <Link href={`/user/${user?.nickname}/chat`}>Chats</Link>
+        <Link href={`/user/${user?.nickname}/createpost`}>Create Post</Link>
       </div>
       {user ? <SignOutButton/>: <div className='flex gap-3'><SigninButton/>
         <SignupButton/></div>}

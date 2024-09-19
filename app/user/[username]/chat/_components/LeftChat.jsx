@@ -59,13 +59,13 @@ const LeftChat = () => {
     }
 
   return (
-    <div>
+    <div className='w-[30%] border-2 border-pink-400'>
         {allChatsData.map((chat) => {
 
             const name = getSender(currentUserData.user, chat.users)
             console.log(name)
 
-            return <div onClick={() => handleChatClick(chat._id)} className={selectedChatIdData==chat._id ? "text-red-700": "text-black"}>{`${name} / ${chat.post[0].cropName}` }</div>
+            return <div onClick={() => handleChatClick(chat._id)} className={`cursor-pointer ${selectedChatIdData==chat._id ? "text-red-700": "text-black"}`}>{`${name} / ${chat.post[0].cropName}` }</div>
 
         })}
     </div>

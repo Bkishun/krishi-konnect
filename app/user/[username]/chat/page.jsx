@@ -7,7 +7,7 @@ const page = async ({params}) => {
 
 
     return (
-      <div>
+      <div className="flex border-2 border-green-500 h-screen p-2">
         <LeftChat selectedChatId={chatId}/>
         <RightChat/>
       </div>
