@@ -3,6 +3,7 @@ import { createPost, editPost, getAllPosts, getPostById } from '@/lib/actions/po
 import { editUserProfile, getAllUser, getUserByAuthId, getUserByAuthUsername, registerUser, toggleAccountStatus, } from '@/lib/actions/user.action'
 import { useUser } from '@auth0/nextjs-auth0/client';
 import React from 'react'
+import Test from '../Test';
 
 
 const Home = () => {
@@ -40,6 +41,7 @@ const Home = () => {
     <div>
 
         <button className='bg-red-700 cursor-pointer' onClick={handleClick}>create post</button>
+        <Test/>
       
     </div>
   )
