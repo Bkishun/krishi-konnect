@@ -3,37 +3,26 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { createPost } from "@/lib/actions/post.action";
 import axios from "axios"; // Include axios for making requests
 import imageCompression from "browser-image-compression";
+import { createBuyerLandPost } from "@/lib/actions/buyerlandpost.action";
 
 const postSchema = Yup.object().shape({
   cropName: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
-  cropType: Yup.string()
+  contractType: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
-  minprice: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  maxPrice: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  quantity: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
+  landArea: Yup.string().required("Required"),
   description: Yup.string().min(2, "Too Short!").required("Required"),
   address: Yup.string().min(2, "Too Short!").required("Required"),
-  pictureUrl: Yup.string().required("Required"),
+  imageUrl: Yup.string().required("Required"),
 });
 
-const CropPostForm = () => {
+const BuyerPostForm = () => {
   const [image, setImage] = useState(null); // State for selected image
   const [uploading, setUploading] = useState(false); // State for uploading status
   const [showUploadMessage, setShowUploadMessage] = useState(false);
@@ -64,11 +53,8 @@ const CropPostForm = () => {
 
       const imageData = new FormData();
       imageData.append("file", compressedFile);
-      imageData.append("upload_preset", "KrishiKonnect-croppost");
-      imageData.append(
-        "cloud_name",
-        process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-      );
+      imageData.append("upload_preset", "KrishiKonnect-buyerpost");
+      imageData.append("cloud_name", process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME);
 
       const response = await axios.post(
         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -77,7 +63,7 @@ const CropPostForm = () => {
 
       const imageUrl = response.data.secure_url;
       // Set the uploaded image URL in the Formik field
-      setFieldValue("pictureUrl", imageUrl);
+      setFieldValue("imageUrl", imageUrl);
       setShowUploadMessage(true);
     } catch (error) {
       console.error("Image upload failed:", error);
@@ -91,18 +77,16 @@ const CropPostForm = () => {
     <Formik
       initialValues={{
         cropName: "",
-        cropType: "",
-        minprice: "",
-        maxPrice: "",
-        quantity: "",
+        contractType: "",
+        landArea: "",
         description: "",
         address: "",
-        pictureUrl: "",
+        imageUrl: "",
       }}
       validationSchema={postSchema}
       onSubmit={async (values) => {
-        // Submit form values
-        const result = await createPost(values);
+        console.log(values)
+        const result = await createBuyerLandPost(values);
         console.log(result);
       }}
     >
@@ -117,61 +101,23 @@ const CropPostForm = () => {
           </div>
 
           <div>
-            <label htmlFor="cropType">Crop Type</label>
-            <Field as="select" name="cropType">
-              <option value="" label="Select Crop Type" />
-              <option
-                value="cereals"
-                label="Cereals (e.g., wheat, rice, maize)"
-              />
-              <option
-                value="pulses"
-                label="Pulses (e.g., lentils, chickpeas, peas)"
-              />
-              <option
-                value="oilseeds"
-                label="Oilseeds (e.g., soybean, sunflower, rapeseed)"
-              />
-              <option
-                value="vegetables"
-                label="Vegetables (e.g., potatoes, tomatoes, carrots)"
-              />
-              <option
-                value="fiber crops"
-                label="Fiber Crops (e.g., cotton, jute, hemp)"
-              />
-              <option
-                value="beverage crops"
-                label="Beverage Crops (e.g., coffee, tea, cocoa)"
-              />
-              <option
-                value="root and tuber crops"
-                label="Root and Tuber Crops (e.g., cassava, yams, sweet potatoes)"
-              />
-              <option
-                value="forage crops"
-                label="Forage Crops (e.g., alfalfa, clover, grasses)"
-              />
+            <label htmlFor="contractType">Contract Type</label>
+            <Field as="select" name="contractType">
+              <option value="" label="Select a Contract type" />
+              <option value="market-specification" label="Market Specification" />
+              <option value="resource-providing" label="Resource-Providing" />
+              <option value="production management" label="Production Management" />
+              <option value="total contracts" label="Total Contracts" />
             </Field>
-            <ErrorMessage name="cropType" component="div" />
+            <ErrorMessage name="contractType" component="div" />
           </div>
-
           <div>
-            <label htmlFor="minprice">Min Price</label>
-            <Field name="minprice" placeholder="Min Price" />
-            {errors.minprice && touched.minprice ? (
-              <div style={{ color: "red" }}>{errors.minprice}</div>
+            <label htmlFor="landArea">Land area</label>
+            <Field name="landArea" placeholder="" />
+            {errors.landArea && touched.landArea ? (
+              <div style={{ color: "red" }}>{errors.landArea}</div>
             ) : null}
           </div>
-
-          <div>
-            <label htmlFor="maxPrice">Max Price</label>
-            <Field name="maxPrice" placeholder="Max Price" />
-            {errors.maxPrice && touched.maxPrice ? (
-              <div style={{ color: "red" }}>{errors.maxPrice}</div>
-            ) : null}
-          </div>
-
           <div>
             <label htmlFor="description">Description</label>
             <Field name="description" as="textarea" placeholder="Description" />
@@ -188,18 +134,10 @@ const CropPostForm = () => {
             ) : null}
           </div>
 
-          <div>
-            <label htmlFor="quantity">Quantity</label>
-            <Field name="quantity" placeholder="Quantity" />
-            {errors.quantity && touched.quantity ? (
-              <div style={{ color: "red" }}>{errors.quantity}</div>
-            ) : null}
-          </div>
-
           {/* Picture URL with image upload logic */}
           <div>
-            <label htmlFor="pictureUrl">Select Image</label>
-            <input type="file" name="pictureUrl" onChange={handleFileChange} />
+            <label htmlFor="imageUrl">Select Image</label>
+            <input type="file" name="imageUrl" onChange={handleFileChange} />
             <button
               className="bg-blue-600 p-2"
               type="button"
@@ -225,4 +163,4 @@ const CropPostForm = () => {
   );
 };
 
-export default CropPostForm;
+export default BuyerPostForm;
