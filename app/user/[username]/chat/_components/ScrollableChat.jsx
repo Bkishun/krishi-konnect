@@ -26,7 +26,7 @@ const ScrollableChat = ({ allMessage, currentUserData }) => {
   }, [allMessage]);
 
   return (
-    <ScrollableFeed className="h-full border-2 border-yellow-600 flex flex-col scrollbar-hide">
+    <ScrollableFeed className="h-full flex flex-col scrollbar-hide">
       {allMessage &&
         allMessage.map((message) => {
           return (
