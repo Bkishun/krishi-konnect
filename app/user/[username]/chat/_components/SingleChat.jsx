@@ -85,7 +85,7 @@ const SingleChat = () => {
               
             </div>
             <button className="bg-green-500 p-2" type="submit">
-              Submit
+              Send
             </button>
           </Form>
         )}
