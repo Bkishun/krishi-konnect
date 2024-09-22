@@ -11,11 +11,11 @@ const Home = () => {
 
   // console.log(user)
     const data = {
-      name : "benten",
+      name : "shikhar",
       password : "98987678789",
-      adhaarNumber: "980987678678",
+      adhaarNumber: "98098767834535",
       address : "banarash",
-      userType : "buyer",
+      userType : "farmer",
     }
 
     const post ={
@@ -30,7 +30,7 @@ const Home = () => {
     }
 
     const handleClick = async  () => {
-      const res = await createPost(post);
+      const res = await createPost(data);
       //66e5838cdcb6bbbff9de87c4
       console.log(res)
       
