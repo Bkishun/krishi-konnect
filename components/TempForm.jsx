@@ -1,79 +1,87 @@
-"use client"
-import { createPost } from '@/lib/actions/post.action';
-import React, { useState } from 'react'
+"use client";
+
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { registerUser } from "@/lib/actions/user.action";
+
+const postSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  password: Yup.string().min(6, "Too Short!").max(12, "Too Long!"),
+  adhaarNumber: Yup.string()
+    .min(12, "Too Short!")
+    .max(12, "Too Long!")
+    .required("Required"),
+  address: Yup.string().min(6, "Too Short!").required("Required"),
+  userType: Yup.string().required("Required"),
+});
 
 const TempForm = () => {
-    const [name, setName] = useState("");
-    const [adhar, setAdhar] = useState("");
-    console.log(name)
-    console.log(adhar)
-
-    const handleClick = async (e) => {
-        e.preventDefault();
-
-        try {
-
-
-            // const data = await postUser({username: name, adhaarnumber: adhar})
-            // console.log(data)
-            const data = await fetch('http://localhost:3000/api/user/onboarding', {
-                method: 'POST', // Specify the HTTP method
-                headers: {
-                  'Content-Type': 'application/json', // Indicate the content type
-                },
-                body: JSON.stringify({
-                  // Your data goes here
-                  username: name,
-                  adhaarnumber: adhar,
-                }),
-              })
-
-              console.log(data)
-
-            // const data = await fetch('http://localhost:3000/api/user/onboarding', {
-            //     method: "post"
-            // })
-        } catch (error) {
-            console.log(error)
-        }
-
-        
-    }
-
-    const post ={
-      cropName : "Onion",
-      cropType: "onis",
-      minprice: "42",
-      maxPrice: "64",
-      quantity: "800 tons",
-      description:"clean Onion for use",
-      address: "gonda",
-      pictureUrl: "yuihojwopoed//4657576869/iueiutuer/jkdslhhioe//uwefeokewo//r",
-    }
-
-
-    const handlePostClick = async () => {
-
-      const postData = await createPost(post);
-      console.log(postData)
-
-    }
-
   return (
-    <div>
+    <Formik
+      initialValues={{
+        name: "",
+        password: "",
+        adhaarNumber: "",
+        address: "",
+        userType: "",
+      }}
+      validationSchema={postSchema}
+      onSubmit={async (values) => {
+        console.log(values);
+        const result = await registerUser(values);
+        console.log(result);
+      }}
+    >
+      {({ errors, touched, setFieldValue }) => (
+        <Form>
+          <div>
+            <label htmlFor="name">Full Name</label>
+            <Field name="name" placeholder="" />
+            {errors.name && touched.name ? (
+              <div style={{ color: "red" }}>{errors.name}</div>
+            ) : null}
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <Field name="password" placeholder="" />
+          </div>
+          <div>
+            <label htmlFor="adhaarNumber">Adhaar Number</label>
+            <Field name="adhaarNumber" placeholder="" />
+            {errors.adhaarNumber && touched.adhaarNumber ? (
+              <div style={{ color: "red" }}>{errors.adhaarNumber}</div>
+            ) : null}
+          </div>
 
-<div>username</div>
-        <input value={name} onChange={(e) => setName(e.target.value)} type="text" />
-<div>adharnumber</div>
-        <input value={adhar} onChange={(e) => setAdhar(e.target.value)} type="text" />
-        <button onClick={handleClick}>done</button>
+          <div>
+            <label htmlFor="address">Address</label>
+            <Field name="address" placeholder="Address" />
+            {errors.address && touched.address ? (
+              <div style={{ color: "red" }}>{errors.address}</div>
+            ) : null}
+          </div>
 
+          <div>
+            <label htmlFor="userType">User Type</label>
+            <Field as="select" name="userType">
+              <option value="" label="Select a User type" />
+              <option value="buyer" label="Buyer" />
+              <option value="farmer" label="Farmer" />
+            </Field>
+            <ErrorMessage name="userType" component="div" />
+          </div>
 
-        <button onClick={handlePostClick}>post</button>
-      
-    </div>
+          <button className="bg-green-500 p-2" type="submit">
+            Submit
+          </button>
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
-  )
-}
-
-export default TempForm
+export default TempForm;
