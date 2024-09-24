@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
-import { UserProvider } from '@0/nextjs-0/client';
+import { UserProvider } from '@auth0/nextjs-auth0/client'
 import Header from "@/components/Home/Header/Header";
 import { Providers } from "@/redux/Providers";
 
